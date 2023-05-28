@@ -1,0 +1,29 @@
+---
+- name: Setup ovpn server
+  hosts: ovpn_server
+  become_user: root
+  tasks:
+    - name: Set OS Time
+      become: true
+      timezone:
+        name: Asia/Seoul
+      retries: 50
+      delay: 5
+    - name: Install curl
+      become: true
+      ansible.builtin.apt:
+        name: curl
+    - name: Set up openvpn install script
+      shell: |
+        rm -f openvpn-install.sh
+        curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+        chmod +x openvpn-install.sh
+    - name: Install openvpn using script
+      shell: |
+        sudo AUTO_INSTALL=y ~/openvpn-install.sh
+    - name: Copy Openvpn configuration from server
+      ansible.builtin.fetch:
+        src: ~/client.ovpn
+        dest: ./
+        flat: true
+
