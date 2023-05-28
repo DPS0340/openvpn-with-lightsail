@@ -20,7 +20,7 @@
         chmod +x openvpn-install.sh
     - name: Install openvpn using script
       shell: |
-        sudo AUTO_INSTALL=y ~/openvpn-install.sh
+        sudo AUTO_INSTALL=y PROTOCOL_CHOICE=2 ~/openvpn-install.sh
     - name: Copy Openvpn configuration from server
       ansible.builtin.fetch:
         src: ~/client.ovpn
