@@ -25,31 +25,23 @@ resource "aws_lightsail_instance" "ovpn_server" {
   key_pair_name     = "ovpn_server_key_pair"
 }
 
-resource "aws_lightsail_instance_public_ports" "ssh" {
+resource "aws_lightsail_instance_public_ports" "ovpn_server" {
   instance_name = aws_lightsail_instance.ovpn_server.name
 
   port_info {
     protocol  = "tcp"
     from_port = 22
     to_port   = 22
-}
   }
-
-resource "aws_lightsail_instance_public_ports" "openvpn_udp" {
-  instance_name = aws_lightsail_instance.ovpn_server.name
-
-  port_info {
-    protocol  = "udp"
-    from_port = 1194
-    to_port   = 1194
-  }
-}
-
-resource "aws_lightsail_instance_public_ports" "openvpn_tcp" {
-  instance_name = aws_lightsail_instance.ovpn_server.name
 
   port_info {
     protocol  = "tcp"
+    from_port = 1194
+    to_port   = 1194
+  }
+
+  port_info {
+    protocol  = "udp"
     from_port = 1194
     to_port   = 1194
   }
